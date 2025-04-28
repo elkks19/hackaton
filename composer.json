@@ -1,0 +1,17 @@
+{
+    "name": "esnupi/hackaton",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Esnupi\\Hackaton\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "elkks19",
+            "email": "rafafabiani1909@gmail.com"
+        }
+    ],
+    "require": {
+    }
+}
