@@ -1,7 +1,10 @@
 <?php
-include 'conexion.php';
 
-// Solo estudiantes eliminados
+require_once __DIR__ . '/../index.php';
+
+use Dba\Connection;
+
+$connection = Connection::get();
 $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT NULL");
 ?>
 

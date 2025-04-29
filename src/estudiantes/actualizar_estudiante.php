@@ -75,7 +75,7 @@
             transition: border-color 0.3s;
         }
         
-        .form-control:focus {
+        .form-control:fogit branch -r \cus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
