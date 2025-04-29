@@ -1,12 +1,7 @@
 <?php
 require '../../conexion.php';
 
-$resultado = $conexion->query("
-    SELECT m.id, m.nombre, m.descripcion, t.nombre AS tipo
-    FROM materiales m
-    JOIN tipos_materiales t ON m.tipo_id = t.id
-    WHERE m.deleted_at IS NULL
-");
+$tipos = $conexion->query("SELECT * FROM tipos_materiales");
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +9,7 @@ $resultado = $conexion->query("
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materiales - Institución Inclusiva</title>
+    <title>Nuevo Material</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -65,7 +60,7 @@ $resultado = $conexion->query("
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 3rem auto;
             padding: 0 1rem;
         }
@@ -84,69 +79,58 @@ $resultado = $conexion->query("
             font-size: 1.8rem;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: center;
-            border: 2px solid var(--color-light);
-        }
-
-        th {
-            background-color: var(--color-primary);
-            color: var(--color-white);
-        }
-
-        tr:nth-child(even) {
-            background-color: var(--color-light);
-        }
-
-        tr:hover {
-            background-color: var(--color-accent);
+        label {
+            font-size: 1.1rem;
             color: var(--color-dark);
+            display: block;
+            margin-bottom: 0.5rem;
         }
 
-        a {
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            background-color: var(--color-primary);
-            color: var(--color-white);
-            text-decoration: none;
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
             border-radius: var(--radius);
-            font-weight: 500;
+            border: 2px solid var(--color-light);
+            font-size: 1rem;
+            background-color: var(--color-light);
             transition: var(--transition);
         }
 
-        a:hover {
-            background-color: var(--color-dark);
-            transform: scale(1.05);
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--color-primary);
+            outline: none;
         }
 
-        .btn-nuevo {
-            display: inline-block;
-            background-color: var(--color-secondary);
+        .btn-submit, .btn-cancel {
             padding: 1rem 2rem;
-            margin-bottom: 1rem;
             text-decoration: none;
             color: var(--color-white);
+            background-color: var(--color-primary);
             border-radius: var(--radius);
-            font-size: 1.2rem;
+            border: 2px solid var(--color-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            display: inline-block;
             transition: var(--transition);
         }
 
-        .btn-nuevo:hover {
+        .btn-submit:hover {
             background-color: var(--color-dark);
+            border-color: var(--color-dark);
             transform: scale(1.05);
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 1rem; /* Espacio entre los botones */
-            justify-content: center; /* Centrar los botones horizontalmente */
+        .btn-cancel {
+            background-color: var(--color-secondary);
+            margin-left: 1rem;
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--color-dark);
+            border-color: var(--color-dark);
+            transform: scale(1.05);
         }
 
         .footer {
@@ -160,37 +144,37 @@ $resultado = $conexion->query("
 </head>
 <body>
     <div class="header">
-        <h1>Materiales</h1>
+        <h1>Nuevo Material</h1>
         <p>Institución de Apoyo a Personas con Discapacidad Visual</p>
     </div>
 
     <div class="container">
-        <a href="crear.php" class="btn-nuevo"><i class="fas fa-plus-circle"></i> Nuevo Material</a>
-
         <div class="card">
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Tipo de Material</th>
-                    <th>Descripción</th>
-                    <th>Acciones</th>
-                </tr>
-                <?php while ($fila = $resultado->fetch_assoc()) { ?>
-                    <tr>
-                        <td><?= $fila['id'] ?></td>
-                        <td><?= $fila['nombre'] ?></td>
-                        <td><?= $fila['tipo'] ?></td>
-                        <td><?= $fila['descripcion'] ?></td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="editar.php?id=<?= $fila['id'] ?>">Editar</a>
-                                <a href="eliminar.php?id=<?= $fila['id'] ?>" onclick="return confirm('¿Seguro?')">Eliminar</a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </table>
+            <h2 class="form-title">
+                <i class="fas fa-plus-circle"></i> Crear Nuevo Material
+            </h2>
+
+            <form action="guardar.php" method="POST">
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" required>
+
+                <label for="tipo_id">Tipo de Material:</label>
+                <select name="tipo_id" required>
+                    <?php while ($tipo = $tipos->fetch_assoc()) { ?>
+                        <option value="<?= $tipo['id'] ?>"><?= $tipo['nombre'] ?></option>
+                    <?php } ?>
+                </select>
+
+                <label for="descripcion">Descripción:</label>
+                <textarea name="descripcion" rows="4" cols="40"></textarea>
+
+                <div style="text-align: center;">
+                    <input type="submit" value="Guardar" class="btn-submit">
+                    <a href="index.php" class="btn-cancel">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 

@@ -1,12 +1,7 @@
 <?php
 require '../../conexion.php';
 
-$resultado = $conexion->query("
-    SELECT m.id, m.nombre, m.descripcion, t.nombre AS tipo
-    FROM materiales m
-    JOIN tipos_materiales t ON m.tipo_id = t.id
-    WHERE m.deleted_at IS NULL
-");
+$resultado = $conexion->query("SELECT * FROM tipos_materiales");
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +9,7 @@ $resultado = $conexion->query("
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materiales - Institución Inclusiva</title>
+    <title>Tipos de Materiales</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -143,12 +138,6 @@ $resultado = $conexion->query("
             transform: scale(1.05);
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 1rem; /* Espacio entre los botones */
-            justify-content: center; /* Centrar los botones horizontalmente */
-        }
-
         .footer {
             text-align: center;
             margin-top: 3rem;
@@ -160,33 +149,27 @@ $resultado = $conexion->query("
 </head>
 <body>
     <div class="header">
-        <h1>Materiales</h1>
-        <p>Institución de Apoyo a Personas con Discapacidad Visual</p>
+        <h1>Tipos de Materiales</h1>
+        <p>Gestión de Tipos de Materiales para el sistema</p>
     </div>
 
     <div class="container">
-        <a href="crear.php" class="btn-nuevo"><i class="fas fa-plus-circle"></i> Nuevo Material</a>
+        <a href="crear.php" class="btn-nuevo"><i class="fas fa-plus-circle"></i> Nuevo Tipo</a>
 
         <div class="card">
             <table>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Tipo de Material</th>
-                    <th>Descripción</th>
                     <th>Acciones</th>
                 </tr>
                 <?php while ($fila = $resultado->fetch_assoc()) { ?>
                     <tr>
                         <td><?= $fila['id'] ?></td>
                         <td><?= $fila['nombre'] ?></td>
-                        <td><?= $fila['tipo'] ?></td>
-                        <td><?= $fila['descripcion'] ?></td>
                         <td>
-                            <div class="action-buttons">
-                                <a href="editar.php?id=<?= $fila['id'] ?>">Editar</a>
-                                <a href="eliminar.php?id=<?= $fila['id'] ?>" onclick="return confirm('¿Seguro?')">Eliminar</a>
-                            </div>
+                            <a href="editar.php?id=<?= $fila['id'] ?>">Editar</a>
+                            <a href="eliminar.php?id=<?= $fila['id'] ?>" onclick="return confirm('¿Seguro?')">Eliminar</a>
                         </td>
                     </tr>
                 <?php } ?>
@@ -195,7 +178,7 @@ $resultado = $conexion->query("
     </div>
 
     <div class="footer">
-        <p>&copy; <?= date('Y') ?> Sistema de Gestión de Materiales - Todos los derechos reservados</p>
+        <p>&copy; <?= date('Y') ?> Sistema de Gestión de Tipos de Materiales - Todos los derechos reservados</p>
     </div>
 </body>
 </html>
