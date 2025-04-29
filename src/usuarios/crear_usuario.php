@@ -25,11 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO usuarios (rol_id, nombres, apellidos, telefono, direccion, ci, fecha_nacimiento)
             VALUES ('$rol_id', '$nombres', '$apellidos', '$telefono', '$direccion', '$ci', '$fecha_nacimiento')";
 
-    if ($conexion->query($sql) === TRUE) {
+    if ($conexion->query($sql) !== false) {
         $mensaje = "Usuario creado correctamente.";
         $tipo_mensaje = "success";
     } else {
-        $mensaje = "Error: " . $conexion->error;
+        $mensaje = "Error: " . $conexion->errorInfo()[2];
         $tipo_mensaje = "error";
     }
 }
@@ -247,9 +247,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="rol_id">Rol del Usuario</label>
                             <select class="form-control" name="rol_id" id="rol_id" required>
                                 <option value="">Seleccione un rol</option>
-                                <?php while ($rol = $roles->fetch_assoc()): ?>
+                                <?php foreach($roles->fetchAll() as $rol): ?>
                                     <option value="<?php echo $rol['id']; ?>"><?php echo $rol['nombre']; ?></option>
-                                <?php endwhile; ?>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>

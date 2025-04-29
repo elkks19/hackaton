@@ -153,7 +153,7 @@ $tipos = $conexion->query("SELECT * FROM tipos_materiales");
                 <label for="tipo_id">Tipo de Material:</label>
                 <select name="tipo_id" id="tipo_id" required onchange="mostrarNuevoTipo(this)">
                     <option value="">-- Seleccionar tipo --</option>
-                    <?php while ($tipo = $tipos->fetch_assoc()) { ?>
+                    <?php foreach ($tipos->fetchAll() as $tipo) { ?>
                         <option value="<?= $tipo['id'] ?>"><?= htmlspecialchars($tipo['nombre']) ?></option>
                     <?php } ?>
                     <option value="nuevo">Otro / Nuevo tipo…</option>

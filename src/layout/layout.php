@@ -298,7 +298,7 @@
                 <span class="menu-icon">📋</span>
                 <span class="menu-text">Asistencia</span>
             </a>
-            <a href="../asistencias/escoger.php" class="menu-item menu-asistencia">
+            <a href="../materiales/index.php" class="menu-item menu-asistencia">
                 <span class="menu-icon">📋  </span>
                 <span class="menu-text">Materiales</span>
             </a>

@@ -16,9 +16,9 @@ $nuevo_tipo = trim($_POST['nuevo_tipo']); // Este es el campo opcional para el n
 if (!empty($nuevo_tipo)) {
     // Insertamos el nuevo tipo
     $stmt = $conexion->prepare("INSERT INTO tipos_materiales (nombre) VALUES (?)");
-    $stmt->bind_param("s", $nuevo_tipo);
+    $stmt->bindParam("s", $nuevo_tipo);
     $stmt->execute();
-    $tipo_id = $conexion->insert_id; // Reemplazamos el tipo_id con el nuevo insertado
+    $tipo_id = $conexion->lastInsertId(); // Reemplazamos el tipo_id con el nuevo insertado
 }
 
 $conexion->query("

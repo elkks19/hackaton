@@ -8,7 +8,7 @@ $conexion = Connection::get();
 
 $id = $_GET['id'];
 $resultado = $conexion->query("SELECT * FROM materiales WHERE id = $id");
-$material = $resultado->fetchAll();
+$material = $resultado->fetch();
 
 $tipos = $conexion->query("SELECT * FROM tipos_materiales");
 ?>
@@ -159,7 +159,7 @@ $tipos = $conexion->query("SELECT * FROM tipos_materiales");
 
                 <label for="tipo_id">Tipo de Material:</label>
                 <select name="tipo_id" id="tipo_id" required onchange="mostrarNuevoTipo(this)">
-                    <?php while ($tipo = $tipos->fetch_assoc()) { ?>
+                    <?php foreach($tipos->fetchAll() as $tipo) { ?>
                         <option value="<?= $tipo['id'] ?>" <?= $tipo['id'] == $material['tipo_id'] ? 'selected' : '' ?>>
                             <?= htmlspecialchars($tipo['nombre']) ?>
                         </option>

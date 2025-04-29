@@ -10,10 +10,11 @@ $id = $_GET['id'];
 
 $sql = "UPDATE usuarios SET deleted_at = CURRENT_TIMESTAMP WHERE id = $id";
 
-if ($conexion->query($sql) === TRUE) {
-    echo "Usuario eliminado lógicamente.";
+if ($conexion->query($sql) !== false) {
+	header("Location: usuarios.php");
+	return;
 } else {
-    echo "Error al eliminar: " . $conexion->error;
+	header("Location: usuarios.php");
+	return;
 }
 ?>
-<a href="usuarios.php">Volver al listado</a>

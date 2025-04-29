@@ -34,14 +34,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensaje = "Usuario actualizado correctamente.";
         $tipo_mensaje = "success";
     } else {
-        $mensaje = "Error actualizando: " . $conexion->error;
+        $mensaje = "Error actualizando: " . $conexion->errorInfo()[2];
         $tipo_mensaje = "error";
     }
 }
 
 // Datos actuales del usuario
 $resultado = $conexion->query("SELECT * FROM usuarios WHERE id=$id");
-$fila = $resultado->fetch_assoc();
+$fila = $resultado->fetch();
 ?>
 
 <!DOCTYPE html>
@@ -335,3 +335,4 @@ $fila = $resultado->fetch_assoc();
     </div>
 </body>
 </html>
+

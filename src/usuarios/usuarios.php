@@ -1,14 +1,4 @@
 <?php
-
-require_once __DIR__ . '/../index.php';
-
-use App\DB\Connection;
-
-$conexion = Connection::get();
-
-$resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NULL");
-$total_estudiantes = $resultado->num_rows;
-
 $titulo = "Personal";
 $pagina = "Personal";
 ?>
@@ -266,15 +256,18 @@ tr:hover {
 </style>
 
     <?php
-    include 'conexion.php';
+	require_once __DIR__ . '/../index.php';
 
+	use App\DB\Connection;
+
+	$conexion = Connection::get();
     $resultado = $conexion->query("
         SELECT usuarios.*, roles.nombre AS rol_nombre 
         FROM usuarios 
         INNER JOIN roles ON usuarios.rol_id = roles.id
         WHERE usuarios.deleted_at IS NULL
     ");
-    $total_usuarios = $resultado->num_rows;
+    $total_usuarios = $resultado->rowCount();
     ?>
 
     <div class="container">
@@ -315,7 +308,7 @@ tr:hover {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($fila = $resultado->fetch_assoc()): ?>
+                        <?php foreach ($resultado->fetchAll() as $fila): ?>
                             <tr>
                                 <td><?php echo $fila['id']; ?></td>
                                 <td><?php echo $fila['nombres'] . ' ' . $fila['apellidos']; ?></td>
@@ -354,7 +347,7 @@ tr:hover {
                                     </a>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             <?php else: ?>

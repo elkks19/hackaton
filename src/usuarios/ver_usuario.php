@@ -13,14 +13,13 @@ $stmt = $conexion->prepare("
     SELECT usuarios.*, roles.nombre AS rol_nombre 
     FROM usuarios 
     INNER JOIN roles ON usuarios.rol_id = roles.id
-    WHERE usuarios.id = ?
+    WHERE usuarios.id = {$id}
 ");
-$stmt->bind_param("i", $id);
 $stmt->execute();
-$resultado = $stmt->get_result();
+$resultado = $stmt->fetch();
 
-if ($resultado->num_rows > 0) {
-    $fila = $resultado->fetch_assoc();
+if ($resultado->rowCount() > 0) {
+    $fila = $resultado->fetch();
 } else {
     echo "Usuario no encontrado.";
     exit;

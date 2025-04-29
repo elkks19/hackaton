@@ -2,6 +2,10 @@
 
 require_once __DIR__ . '/../index.php';
 
+$titulo = "Materiales";
+$pagina = "Materiales";
+ob_start();
+
 use App\DB\Connection;
 
 $conexion = Connection::get();
@@ -43,14 +47,14 @@ $resultado = $conexion->query("
             box-sizing: border-box;
         }
 
-        body {
+        .materiales-page {
             font-family: 'Segoe UI', 'Arial', sans-serif;
             background-color: var(--color-background);
             color: var(--color-text);
             line-height: 1.6;
         }
 
-        .header {
+        .materiales-page .header {
             background: linear-gradient(135deg, var(--color-primary), var(--color-dark));
             color: var(--color-white);
             padding: 1.5rem;
@@ -58,64 +62,65 @@ $resultado = $conexion->query("
             border-bottom: 4px solid var(--color-accent);
         }
 
-        .header h1 {
+        .materiales-page .header h1 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
-        .header p {
+        .materiales-page .header p {
             font-size: 1rem;
             opacity: 0.9;
         }
 
-        .container {
+        .materiales-page .container {
             max-width: 1000px;
             margin: 3rem auto;
             padding: 0 1rem;
         }
 
-        .card {
+        .materiales-page .card {
             background-color: var(--color-white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 2rem;
         }
 
-        .form-title {
+        .materiales-page .form-title {
             margin-bottom: 1.5rem;
             color: var(--color-primary);
             text-align: center;
             font-size: 1.8rem;
         }
 
-        table {
+        .materiales-page table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 1.5rem;
         }
 
-        th, td {
+        .materiales-page th, 
+        .materiales-page td {
             padding: 1rem;
             text-align: center;
             border: 2px solid var(--color-light);
         }
 
-        th {
+        .materiales-page th {
             background-color: var(--color-primary);
             color: var(--color-white);
         }
 
-        tr:nth-child(even) {
+        .materiales-page tr:nth-child(even) {
             background-color: var(--color-light);
         }
 
-        tr:hover {
+        .materiales-page tr:hover {
             background-color: var(--color-accent);
             color: var(--color-dark);
         }
 
-        a {
+        .materiales-page a {
             padding: 0.5rem 1rem;
             margin: 0 0.5rem;
             background-color: var(--color-primary);
@@ -126,12 +131,12 @@ $resultado = $conexion->query("
             transition: var(--transition);
         }
 
-        a:hover {
+        .materiales-page a:hover {
             background-color: var(--color-dark);
             transform: scale(1.05);
         }
 
-        .btn-nuevo {
+        .materiales-page .btn-nuevo {
             display: inline-block;
             background-color: var(--color-secondary);
             padding: 1rem 2rem;
@@ -143,18 +148,18 @@ $resultado = $conexion->query("
             transition: var(--transition);
         }
 
-        .btn-nuevo:hover {
+        .materiales-page .btn-nuevo:hover {
             background-color: var(--color-dark);
             transform: scale(1.05);
         }
 
-        .action-buttons {
+        .materiales-page .action-buttons {
             display: flex;
-            gap: 1rem; /* Espacio entre los botones */
-            justify-content: center; /* Centrar los botones horizontalmente */
+            gap: 1rem;
+            justify-content: center;
         }
 
-        .footer {
+        .materiales-page .footer {
             text-align: center;
             margin-top: 3rem;
             padding: 1.5rem;
@@ -164,43 +169,50 @@ $resultado = $conexion->query("
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Materiales</h1>
-        <p>Institución de Apoyo a Personas con Discapacidad Visual</p>
-    </div>
-
-    <div class="container">
-        <a href="crear.php" class="btn-nuevo"><i class="fas fa-plus-circle"></i> Nuevo Material</a>
-
-        <div class="card">
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Tipo de Material</th>
-                    <th>Descripción</th>
-                    <th>Acciones</th>
-                </tr>
-                <?php while ($fila = $resultado->fetch_assoc()) { ?>
-                    <tr>
-                        <td><?= $fila['id'] ?></td>
-                        <td><?= $fila['nombre'] ?></td>
-                        <td><?= $fila['tipo'] ?></td>
-                        <td><?= $fila['descripcion'] ?></td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="editar.php?id=<?= $fila['id'] ?>">Editar</a>
-                                <a href="eliminar.php?id=<?= $fila['id'] ?>" onclick="return confirm('¿Seguro?')">Eliminar</a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </table>
+    <div class="materiales-page">
+        <div class="header">
+            <h1>Materiales</h1>
+            <p>Institución de Apoyo a Personas con Discapacidad Visual</p>
         </div>
-    </div>
 
-    <div class="footer">
-        <p>&copy; <?= date('Y') ?> Sistema de Gestión de Materiales - Todos los derechos reservados</p>
+        <div class="container">
+            <a href="crear.php" class="btn-nuevo"><i class="fas fa-plus-circle"></i> Nuevo Material</a>
+
+            <div class="card">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Tipo de Material</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                    <?php foreach ($resultado->fetchAll() as $fila) { ?>
+                        <tr>
+                            <td><?= $fila['id'] ?></td>
+                            <td><?= $fila['nombre'] ?></td>
+                            <td><?= $fila['tipo'] ?></td>
+                            <td><?= $fila['descripcion'] ?></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="editar.php?id=<?= $fila['id'] ?>">Editar</a>
+                                    <a href="eliminar.php?id=<?= $fila['id'] ?>" onclick="return confirm('¿Seguro?')">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; <?= date('Y') ?> Sistema de Gestión de Materiales - Todos los derechos reservados</p>
+        </div>
     </div>
 </body>
 </html>
+
+<?php
+	$contenido = ob_get_clean(); // Guarda el contenido generado
+	include '../layout/layout.php'; // Muestra el layout con el contenido insertado
+?>

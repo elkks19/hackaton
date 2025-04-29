@@ -14,7 +14,7 @@ $resultado = $conexion->query("
 ");
 
 // Contar usuarios eliminados
-$total_eliminados = $resultado->num_rows;
+$total_eliminados = $resultado->rowCount();
 ?>
 
 <!DOCTYPE html>
@@ -281,7 +281,7 @@ $total_eliminados = $resultado->num_rows;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($fila = $resultado->fetch_assoc()): ?>
+                        <?php foreach ($resultado->fetchAll() as $fila): ?>
                             <tr>
                                 <td><?php echo $fila['id']; ?></td>
                                 <td><?php echo $fila['nombres'] . ' ' . $fila['apellidos']; ?></td>
@@ -300,7 +300,7 @@ $total_eliminados = $resultado->num_rows;
                                     </a>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             <?php else: ?>
