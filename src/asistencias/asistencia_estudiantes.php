@@ -7,7 +7,7 @@ $stmt = $pdo->prepare("
     SELECT clases.id AS clase_id, cursos.nombre AS curso_nombre, clases.hora 
     FROM clases
     INNER JOIN cursos ON clases.curso_id = cursos.id
-    WHERE clases.fecha = :hoy AND clases.deleted_at IS NULL
+    WHERE clases.fecha = :hoy AND clases.deleted_at
 ");
 $stmt->execute(['hoy' => $hoy]);
 $clases = $stmt->fetchAll(PDO::FETCH_ASSOC);
