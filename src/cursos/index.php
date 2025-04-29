@@ -49,12 +49,12 @@ $sql = "SELECT c.id, c.nombre AS nombre_curso, c.descripcion, c.fecha_inicio, c.
 $stmt = $conn->query($sql);
 $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Cursos - Institución Inclusiva</title>
+<?php
+$titulo = "Cursos";
+$pagina = "Cursos    ";
+?>
+
+<?php ob_start(); ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -311,12 +311,6 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         }
     </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Sistema de Gestión de Cursos</h1>
-        <p>Institución de Apoyo a Personas con Discapacidad Visual</p>
-    </div>
 
     <div class="container">
         <div class="card">
@@ -376,8 +370,8 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; <?= date('Y') ?> Sistema de Gestión de Cursos - Todos los derechos reservados</p>
-    </div>
-</body>
-</html>
+
+    <?php
+$contenido = ob_get_clean(); // Guarda el contenido generado
+include '../layout/layout.php'; // Muestra el layout con el contenido insertado
+?>

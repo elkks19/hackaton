@@ -7,18 +7,20 @@ $stmt = $pdo->prepare("
     SELECT clases.id AS clase_id, cursos.nombre AS curso_nombre, clases.hora 
     FROM clases
     INNER JOIN cursos ON clases.curso_id = cursos.id
-    WHERE clases.fecha = :hoy AND clases.deleted_at IS NULL
+    WHERE clases.fecha = :hoy AND clases.deleted_at
 ");
 $stmt->execute(['hoy' => $hoy]);
 $clases = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Asistencia Estudiantes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<?php
+$titulo = "Asistencia Estudiantes";
+$pagina = "Asistencia Estudiantes";
+?>
+
+<?php ob_start(); ?>
+
+
     <style>
         body {
             background-color: #fff8f0;
@@ -49,8 +51,6 @@ $clases = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: white;
         }
     </style>
-</head>
-<body>
 
 <div class="container mt-5">
     <div class="titulo-principal">
@@ -115,5 +115,7 @@ $clases = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?php
+$contenido = ob_get_clean(); // Guarda el contenido generado
+include '../layout/layout.php'; // Muestra el layout con el contenido insertado
+?>

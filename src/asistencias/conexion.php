@@ -1,9 +1,9 @@
 <?php
 // conexion.php
 $host = '127.0.0.1';
-$dbname = 'hackaton';  // <-- cambia esto por el nombre real
+$dbname = 'prueba';  // <-- cambia esto por el nombre real
 $username = 'root';
-$password = '1234';
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
