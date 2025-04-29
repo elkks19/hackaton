@@ -298,6 +298,10 @@
                 <span class="menu-icon">📋</span>
                 <span class="menu-text">Asistencia</span>
             </a>
+            <a href="../asistencias/escoger.php" class="menu-item menu-asistencia">
+                <span class="menu-icon">📋  </span>
+                <span class="menu-text">Materiales</span>
+            </a>
             
             <div class="menu-category">Administración</div>
             <a href="../usuarios/usuarios.php" class="menu-item menu-profesores">
