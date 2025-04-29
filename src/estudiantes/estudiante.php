@@ -11,243 +11,252 @@ $pagina = "estudiantes";
 
 <!-- Estilos mejorados -->
 <style>
-    :root {
-        --primary-color: #4a6fdc;
-        --primary-hover: #3d5cbe;
-        --danger-color: #dc4a4a;
-        --danger-hover: #be3d3d;
-        --success-color: #4adc7d;
-        --success-hover: #3dbe69;
-        --gray-light: #f5f7fa;
-        --gray-medium: #e1e5eb;
-        --gray-dark: #6c757d;
-        --border-radius: 8px;
-        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        --transition: all 0.3s ease;
-    }
+   :root {
+    --primary-color: #ff7d36; /* Naranja primario */
+    --primary-hover: #e66b28; /* Naranja oscuro para hover */
+    --danger-color: #ff4d4d; /* Rojo-naranja para botones de peligro */
+    --danger-hover: #e63939; /* Rojo-naranja más oscuro para hover */
+    --success-color: #ffb74d; /* Naranja claro para éxito */
+    --success-hover: #e6a642; /* Naranja claro más oscuro para hover */
+    --gray-light: #fff5eb; /* Gris con tinte naranja muy claro */
+    --gray-medium: #ffe0cc; /* Gris con tinte naranja claro */
+    --gray-dark: #996033; /* Gris con tinte naranja oscuro */
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(255, 125, 54, 0.15);
+    --transition: all 0.3s ease;
+    --primary: #FF7A00;
+            --primary-light: #FF9A40;
+            --primary-dark: #E06500;
+            --secondary: #FFEAD7;
+            --accent: #FFC380;
+            --text-dark: #333333;
+            --text-light: #FFFFFF;
+            --bg-light: #FFF9F5;
+            --shadow: rgba(255, 122, 0, 0.15);
+}
 
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-    }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
 
-    .header-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    
-    .title-container {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .title-container h1 {
-        margin: 0;
-        font-size: 1.8rem;
-        color: #333;
-    }
-    
-    .title-container .counter {
-        background-color: var(--primary-color);
-        color: white;
-        padding: 0.25rem 0.75rem;
-        border-radius: 50px;
-        font-size: 0.9rem;
-        font-weight: bold;
-    }
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
 
-    .nav-buttons {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        background-color: var(--primary-color);
-        color: white;
-        text-decoration: none;
-        border-radius: var(--border-radius);
-        font-weight: 500;
-        transition: var(--transition);
-        border: none;
-        cursor: pointer;
-    }
+.title-container h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #5a3a20; /* Marrón-naranja para títulos */
+}
 
-    .btn:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-2px);
-    }
+.title-container .counter {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
 
-    .btn-delete {
-        background-color: var(--danger-color);
-    }
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
 
-    .btn-delete:hover {
-        background-color: var(--danger-hover);
-    }
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
 
-    .btn-view {
-        background-color: var(--gray-dark);
-    }
+.btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
 
-    .btn-view:hover {
-        background-color: #5a6268;
-    }
+.btn-delete {
+    background-color: var(--danger-color);
+}
 
-    .btn-edit {
-        background-color: var(--primary-color);
-    }
+.btn-delete:hover {
+    background-color: var(--danger-hover);
+}
 
-    .btn-sm {
-        padding: 0.35rem 0.7rem;
-        font-size: 0.85rem;
-    }
+.btn-view {
+    background-color: #ff9e66; /* Naranja más claro para botones de visualización */
+}
 
-    .search-container {
-        display: flex;
-        margin: 1.5rem 0;
-        max-width: 600px;
-        position: relative;
-    }
+.btn-view:hover {
+    background-color: #e68c57; /* Naranja más claro oscurecido para hover */
+}
 
-    .search-container input {
-        flex: 1;
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--gray-medium);
-        border-radius: var(--border-radius);
-        font-size: 1rem;
-        width: 100%;
-        transition: var(--transition);
-    }
+.btn-edit {
+    background-color: var(--primary-color);
+}
 
-    .search-container input:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(74, 111, 220, 0.2);
-    }
+.btn-sm {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.85rem;
+}
 
-    .search-container button {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: var(--gray-dark);
-        cursor: pointer;
-        transition: var(--transition);
-    }
+.search-container {
+    display: flex;
+    margin: 1.5rem 0;
+    max-width: 600px;
+    position: relative;
+}
 
-    .search-container button:hover {
-        color: var(--primary-color);
-    }
+.search-container input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--gray-medium);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    width: 100%;
+    transition: var(--transition);
+}
 
-    .table-container {
-        background-color: white;
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        overflow: hidden;
-        margin-bottom: 2rem;
-    }
+.search-container input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 125, 54, 0.2);
+}
 
-    .table-header {
-        background-color: var(--primary-color);
-        color: white;
-        padding: 1rem 1.5rem;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+.search-container button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--gray-dark);
+    cursor: pointer;
+    transition: var(--transition);
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+.search-container button:hover {
+    color: var(--primary-color);
+}
 
-    th, td {
-        padding: 1rem 1.5rem;
-        text-align: left;
-        border-bottom: 1px solid var(--gray-medium);
-    }
+.table-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
 
-    th {
-        background-color: var(--gray-light);
-        font-weight: 600;
-        color: #333;
-    }
+.table-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-    tr:last-child td {
-        border-bottom: none;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-    tr:hover {
-        background-color: var(--gray-light);
-    }
+th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-medium);
+}
 
+th {
+    background-color: var(--gray-light);
+    font-weight: 600;
+    color: #5a3a20; /* Marrón-naranja para encabezados de tabla */
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: var(--gray-light);
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--gray-dark);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--gray-medium);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.empty-state p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: var(--gray-dark);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--gray-medium);
+    margin-top: 2rem;
+}
+
+@media screen and (max-width: 768px) {
     .actions {
-        display: flex;
-        gap: 0.5rem;
-        justify-content: flex-end;
-        flex-wrap: wrap;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 3rem 1rem;
-        color: var(--gray-dark);
-    }
-
-    .empty-state i {
-        font-size: 4rem;
-        color: var(--gray-medium);
-        margin-bottom: 1rem;
-        opacity: 0.7;
-    }
-
-    .empty-state p {
-        margin: 0.5rem 0;
-        font-size: 1.1rem;
-    }
-
-    .footer {
-        text-align: center;
-        padding: 1.5rem 0;
-        color: var(--gray-dark);
-        font-size: 0.9rem;
-        border-top: 1px solid var(--gray-medium);
-        margin-top: 2rem;
+        flex-direction: column;
     }
     
-    @media screen and (max-width: 768px) {
-        .actions {
-            flex-direction: column;
-        }
-        
-        .header-section {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        
-        .nav-buttons {
-            width: 100%;
-            margin-top: 1rem;
-        }
-        
-        th, td {
-            padding: 0.75rem;
-        }
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
     }
+    
+    .nav-buttons {
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    th, td {
+        padding: 0.75rem;
+    }
+}
 </style>
 
 <div class="container">

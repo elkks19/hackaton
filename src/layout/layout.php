@@ -282,7 +282,7 @@
         
         <div class="sidebar-menu">
             <div class="menu-category">Principal</div>
-            <a href="dashboard.php" class="menu-item menu-dashboard">
+            <a href="../inicio/index.php" class="menu-item menu-dashboard">
                 <span class="menu-icon">📊</span>
                 <span class="menu-text">Dashboard</span>
             </a>
@@ -294,25 +294,19 @@
                 <span class="menu-icon">📚</span>
                 <span class="menu-text">Cursos</span>
             </a>
-            <a href="asistencia.php" class="menu-item menu-asistencia">
+            <a href="../asistencias/escoger.php" class="menu-item menu-asistencia">
                 <span class="menu-icon">📋</span>
                 <span class="menu-text">Asistencia</span>
             </a>
             
             <div class="menu-category">Administración</div>
-            <a href="profesores.php" class="menu-item menu-profesores">
+            <a href="../usuarios/usuarios.php" class="menu-item menu-profesores">
                 <span class="menu-icon">👨‍🏫</span>
-                <span class="menu-text">Profesores</span>
+                <span class="menu-text">Personal</span>
             </a>
             <a href="reportes.php" class="menu-item menu-reportes">
                 <span class="menu-icon">📈</span>
                 <span class="menu-text">Reportes</span>
-            </a>
-            
-            <div class="menu-category">Sistema</div>
-            <a href="usuarios.php" class="menu-item menu-usuarios">
-                <span class="menu-icon">👥</span>
-                <span class="menu-text">Usuarios</span>
             </a>
         </div>
         

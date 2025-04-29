@@ -1,230 +1,264 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gestión de Usuarios</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --accent-color: #e74c3c;
-            --light-bg: #f8f9fa;
-            --dark-text: #333;
-            --light-text: #fff;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f4f7f9;
-            color: var(--dark-text);
-            line-height: 1.6;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-        
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        h1 {
-            color: var(--primary-color);
-            font-size: 28px;
-        }
-        
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: var(--light-text);
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .btn-delete {
-            background-color: var(--accent-color);
-        }
-        
-        .btn-delete:hover {
-            background-color: #c0392b;
-        }
-        
-        .search-container {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .search-container input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-size: 16px;
-        }
-        
-        .search-container button {
-            padding: 10px 15px;
-            background-color: var(--primary-color);
-            color: var(--light-text);
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: var(--box-shadow);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-        
-        thead {
-            background-color: var(--primary-color);
-            color: var(--light-text);
-        }
-        
-        th, td {
-            padding: 15px;
-            text-align: left;
-        }
-        
-        th {
-            font-weight: 600;
-        }
-        
-        tbody tr:nth-child(even) {
-            background-color: var(--light-bg);
-        }
-        
-        tbody tr:hover {
-            background-color: rgba(52, 152, 219, 0.1);
-        }
-        
-        .actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 14px;
-        }
-        
-        .btn-view {
-            background-color: #2ecc71;
-        }
-        
-        .btn-view:hover {
-            background-color: #27ae60;
-        }
-        
-        .btn-edit {
-            background-color: #f39c12;
-        }
-        
-        .btn-edit:hover {
-            background-color: #e67e22;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #777;
-        }
-        
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 14px;
-            color: #777;
-        }
-        
-        .role-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            background-color: #e0e0e0;
-        }
-        
-        .role-admin {
-            background-color: #9b59b6;
-            color: white;
-        }
-        
-        .role-user {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .role-editor {
-            background-color: #2ecc71;
-            color: white;
-        }
-        
-        @media (max-width: 768px) {
-            .nav-buttons {
-                flex-direction: column;
-            }
-            
-            .actions {
-                flex-direction: column;
-            }
-            
-            table {
-                display: block;
-                overflow-x: auto;
-            }
-        }
-    </style>
-</head>
-<body>
+<?php
+include 'conexion.php';
+$resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NULL");
+$total_estudiantes = $resultado->num_rows;
+
+$titulo = "Personal";
+$pagina = "Personal";
+?>
+
+<?php ob_start(); ?>
+
+
+<style>
+   :root {
+    --primary-color: #ff7d36; /* Naranja primario */
+    --primary-hover: #e66b28; /* Naranja oscuro para hover */
+    --danger-color: #ff4d4d; /* Rojo-naranja para botones de peligro */
+    --danger-hover: #e63939; /* Rojo-naranja más oscuro para hover */
+    --success-color: #ffb74d; /* Naranja claro para éxito */
+    --success-hover: #e6a642; /* Naranja claro más oscuro para hover */
+    --gray-light: #fff5eb; /* Gris con tinte naranja muy claro */
+    --gray-medium: #ffe0cc; /* Gris con tinte naranja claro */
+    --gray-dark: #996033; /* Gris con tinte naranja oscuro */
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(255, 125, 54, 0.15);
+    --transition: all 0.3s ease;
+    --primary: #FF7A00;
+            --primary-light: #FF9A40;
+            --primary-dark: #E06500;
+            --secondary: #FFEAD7;
+            --accent: #FFC380;
+            --text-dark: #333333;
+            --text-light: #FFFFFF;
+            --bg-light: #FFF9F5;
+            --shadow: rgba(255, 122, 0, 0.15);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.title-container h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #5a3a20; /* Marrón-naranja para títulos */
+}
+
+.title-container .counter {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background-color: var(--danger-color);
+}
+
+.btn-delete:hover {
+    background-color: var(--danger-hover);
+}
+
+.btn-view {
+    background-color: #ff9e66; /* Naranja más claro para botones de visualización */
+}
+
+.btn-view:hover {
+    background-color: #e68c57; /* Naranja más claro oscurecido para hover */
+}
+
+.btn-edit {
+    background-color: var(--primary-color);
+}
+
+.btn-sm {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.85rem;
+}
+
+.search-container {
+    display: flex;
+    margin: 1.5rem 0;
+    max-width: 600px;
+    position: relative;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--gray-medium);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    width: 100%;
+    transition: var(--transition);
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 125, 54, 0.2);
+}
+
+.search-container button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--gray-dark);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-container button:hover {
+    color: var(--primary-color);
+}
+
+.table-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.table-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-medium);
+}
+
+th {
+    background-color: var(--gray-light);
+    font-weight: 600;
+    color: #5a3a20; /* Marrón-naranja para encabezados de tabla */
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: var(--gray-light);
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--gray-dark);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--gray-medium);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.empty-state p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: var(--gray-dark);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--gray-medium);
+    margin-top: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+    .actions {
+        flex-direction: column;
+    }
+    
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .nav-buttons {
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    th, td {
+        padding: 0.75rem;
+    }
+}
+</style>
+
     <?php
     include 'conexion.php';
 
@@ -354,5 +388,7 @@
             }
         });
     </script>
-</body>
-</html>
+    <?php
+    $contenido = ob_get_clean(); // Guarda el contenido generado
+    include '../layout/layout.php'; // Muestra el layout con el contenido insertado
+    ?>
