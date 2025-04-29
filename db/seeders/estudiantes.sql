@@ -1,0 +1,22 @@
+INSERT INTO estudiantes (nombres, apellidos, ci, telefono, nombre_tutor, telefono_tutor)
+VALUES
+    ('Juan', 'Pérez', '12345678', '71234567', 'Ana Pérez', '71123456'),
+    ('María', 'Gómez', '23456789', '71234568', 'Carlos Gómez', '71123457'),
+    ('Luis', 'Martínez', '34567890', '71234569', 'Laura Martínez', '71123458'),
+    ('Sofía', 'Ramírez', '45678901', '71234570', 'José Ramírez', '71123459'),
+    ('Carlos', 'Hernández', '56789012', '71234571', 'Marta Hernández', '71123460'),
+    ('Andrés', 'García', '67890123', '71234572', 'Rosa García', '71123461'),
+    ('Elena', 'Lopez', '78901234', '71234573', 'Pedro López', '71123462'),
+    ('David', 'Mora', '89012345', '71234574', 'Laura Mora', '71123463'),
+    ('Paula', 'Fernández', '90123456', '71234575', 'Antonio Fernández', '71123464'),
+    ('Jorge', 'Torres', '01234567', '71234576', 'Isabel Torres', '71123465'),
+    ('Ricardo', 'Ruiz', '12345679', '71234577', 'Victoria Ruiz', '71123466'),
+    ('Sara', 'Jiménez', '23456780', '71234578', 'Juan Jiménez', '71123467'),
+    ('Pablo', 'Ramírez', '34567891', '71234579', 'Sandra Ramírez', '71123468'),
+    ('Mónica', 'Vázquez', '45678902', '71234580', 'Javier Vázquez', '71123469'),
+    ('Fernando', 'Díaz', '56789013', '71234581', 'Gloria Díaz', '71123470'),
+    ('Luis', 'González', '67890124', '71234582', 'Raquel González', '71123471'),
+    ('Esteban', 'Sánchez', '78901235', '71234583', 'Luis Sánchez', '71123472'),
+    ('Verónica', 'Martín', '89012346', '71234584', 'Ana Martín', '71123473'),
+    ('Héctor', 'Crespo', '90123457', '71234585', 'Julia Crespo', '71123474'),
+    ('Beatriz', 'Ponce', '01234568', '71234586', 'Carlos Ponce', '71123475');
