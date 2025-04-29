@@ -176,7 +176,10 @@ $resultado = $conexion->query("
         </div>
 
         <div class="container">
-            <a href="crear.php" class="btn-nuevo"><i class="fas fa-plus-circle"></i> Nuevo Material</a>
+			<div class="flex">
+            	<a href="crear.php" class="btn-nuevo"><i class="fas fa-plus-circle"></i> Nuevo Material</a>
+            	<a href="audiolibros.php" class="btn-nuevo"> Convertir pdf a audiolibro </a>
+			</div>
 
             <div class="card">
                 <table>

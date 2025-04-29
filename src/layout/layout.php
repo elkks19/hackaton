@@ -312,11 +312,16 @@
                 <span class="menu-icon">👨‍🏫</span>
                 <span class="menu-text">Personal</span>
             </a>
-            <a href="reportes.php" class="menu-item menu-reportes">
+            <a href="../reportes/index.php" class="menu-item menu-reportes">
                 <span class="menu-icon">📈</span>
                 <span class="menu-text">Reportes</span>
             </a>
+            <a href="../inicio.php" class="menu-item menu-actions">
+                <span class="menu-icon">🎮</span>
+                <span class="menu-text">Juegos</span>
+            </a>
         </div>
+
         
         <div class="sidebar-footer">
             <div class="user-info">
@@ -326,7 +331,7 @@
                     <div class="user-role">Administrador</div>
                 </div>
             </div>
-            <a href="logout.php" class="logout-btn">
+            <a href="../../login.php" class="logout-btn">
                 <span>🚪</span>
             </a>
         </div>

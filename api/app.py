@@ -1,50 +1,65 @@
-from flask import Flask, request, send_from_directory, jsonify
-from flask_cors import CORS
-import os
 import subprocess
-from werkzeug.utils import secure_filename
+import os
+import sys
+import re
+import uuid
+import shutil
+import pyttsx3
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:8000"}})
+def clean_and_flatten_text(text):
+    text = text.replace('\n', ' ')
+    text = re.sub(r'\s+', ' ', text)
+    text = ''.join(c for c in text if 32 <= ord(c) <= 126 or c in 'áéíóúÁÉÍÓÚñÑüÜ ')
+    return text.strip()
 
-UPLOAD_FOLDER = 'uploads'
-AUDIO_FOLDER = os.path.join(UPLOAD_FOLDER, 'audio')
-PDF_FOLDER = os.path.join(UPLOAD_FOLDER, 'pdfs')
+def process_pdf_to_audio(pdf_path):
+    # Crear carpeta única
+    unique_id = str(uuid.uuid4())
+    output_dir = os.path.join("uploads", unique_id)
+    os.makedirs(output_dir, exist_ok=True)
 
-# Crear carpetas si no existen
-os.makedirs(AUDIO_FOLDER, exist_ok=True)
-os.makedirs(PDF_FOLDER, exist_ok=True)
+    # Rutas de archivo
+    original_pdf_path = os.path.join(output_dir, "documento.pdf")
+    output_txt_path = os.path.join(output_dir, "salida.txt")
+    dummy_pdf_path = os.path.join(output_dir, "output_dummy.pdf")
+    output_mp3_path = os.path.join(output_dir, "salida.mp3")
 
-@app.route('/audios/<filename>', methods=['GET'])
-def download_audio(filename):
-    return send_from_directory(AUDIO_FOLDER, filename, as_attachment=True)
+    # Copiar el PDF original
+    shutil.copyfile(pdf_path, original_pdf_path)
 
-@app.route('/upload', methods=['POST'])
-def upload_pdf():
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part in the request"}), 400
-    
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({"error": "No file selected"}), 400
-
-    filename = secure_filename(file.filename)
-    pdf_path = os.path.join(PDF_FOLDER, filename)
-    file.save(pdf_path)
-
-    # Generar ruta del archivo .txt a crear
-    base_filename = os.path.splitext(filename)[0]
-    txt_output_path = os.path.join(PDF_FOLDER, f"{base_filename}.txt")
-
-    # Ejecutar ocrmypdf con la opción --sidecar
+    # OCR: Generar archivo de texto
     try:
         subprocess.run([
-            "ocrmypdf", "--sidecar", txt_output_path, pdf_path, "/dev/null"
+            "ocrmypdf", "--sidecar", output_txt_path, original_pdf_path, dummy_pdf_path
         ], check=True)
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": "OCR failed", "details": str(e)}), 500
+    except subprocess.CalledProcessError:
+        print("ERROR: Falló el OCR.")
+        sys.exit(1)
 
-    return jsonify({"message": "PDF uploaded and processed", "text_file": f"{base_filename}.txt"}), 200
+    # Leer y limpiar texto
+    if not os.path.exists(output_txt_path):
+        print("ERROR: No se generó el archivo de texto.")
+        sys.exit(1)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+    with open(output_txt_path, 'r', encoding='utf-8') as f:
+        raw_text = f.read()
+
+    cleaned_text = clean_and_flatten_text(raw_text)
+
+    with open(output_txt_path, 'w', encoding='utf-8') as f:
+        f.write(cleaned_text)
+
+    # Generar audio
+    engine = pyttsx3.init()
+    engine.save_to_file(cleaned_text, output_mp3_path)
+    engine.runAndWait()
+
+    # Imprimir la ruta final del MP3 (relativa a PHP)
+    print(output_mp3_path)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 1 + 1:
+        print("Uso: python app.py archivo.pdf")
+        sys.exit(1)
+
+    process_pdf_to_audio(sys.argv[1])
