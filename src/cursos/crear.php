@@ -1,10 +1,15 @@
 <?php
 include 'conexion.php';
 
-// Traer los profesores (usuarios) desde la base de datos
+// Traer los profesores (usuarios)
 $sql = "SELECT id, CONCAT(nombres, ' ', apellidos) AS nombre_completo FROM usuarios";
 $stmt = $conn->query($sql);
 $profesores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Traer los estudiantes
+$sqlEst = "SELECT id, CONCAT(nombres, ' ', apellidos) AS nombre, ci FROM estudiantes WHERE deleted_at IS NULL";
+$stmtEst = $conn->query($sqlEst);
+$estudiantes = $stmtEst->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -211,12 +216,39 @@ $profesores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-size: 0.9rem;
         }
 
-        /* Responsive adjustments */
+        .estudiantes-box {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--color-light);
+            padding: 1rem;
+            border-radius: var(--radius);
+            background-color: #fff;
+        }
+
+        .estudiantes-box label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .search-box {
+            margin-bottom: 1rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--color-light);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--color-white);
+        }
+
         @media (max-width: 768px) {
             .form-actions {
                 flex-direction: column;
             }
-            
+
             .btn {
                 width: 100%;
             }
@@ -273,6 +305,24 @@ $profesores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label class="required-field">Estudiantes:</label>
+                    <div class="form-help">Seleccione uno o más estudiantes para este curso.</div>
+
+                    <div class="search-box">
+                        <input type="text" id="searchEstudiantes" placeholder="Buscar estudiante..." onkeyup="filterEstudiantes()">
+                    </div>
+
+                    <div class="estudiantes-box" id="estudiantesBox">
+                        <?php foreach ($estudiantes as $est): ?>
+                            <label>
+                                <input type="checkbox" name="estudiantes[]" value="<?= $est['id'] ?>">
+                                <?= htmlspecialchars($est['nombre']) ?> (CI: <?= htmlspecialchars($est['ci']) ?>)
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Guardar Curso
@@ -292,4 +342,24 @@ $profesores = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="footer">
         <p>&copy; <?= date('Y') ?> Sistema de Gestión de Cursos - Todos los derechos reservados</p>
     </div>
-</body
+
+    <script>
+        function filterEstudiantes() {
+            let input = document.getElementById('searchEstudiantes');
+            let filter = input.value.toLowerCase();
+            let estudiantesBox = document.getElementById('estudiantesBox');
+            let labels = estudiantesBox.getElementsByTagName('label');
+
+            for (let i = 0; i < labels.length; i++) {
+                let label = labels[i];
+                let text = label.textContent || label.innerText;
+                if (text.toLowerCase().indexOf(filter) > -1) {
+                    label.style.display = '';
+                } else {
+                    label.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

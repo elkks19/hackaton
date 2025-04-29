@@ -3,10 +3,10 @@ function init(PDO $conn) {
 
 }
 
-$host = "localhost"; // Cambia si tu host es distinto
-$user = "root"; // Usuario de la base de datos
-$password = ""; // Contraseña
-$dbname = "prueba"; // Nombre de tu base
+$host = "localhost";
+$user = "root";
+$password = "1234"; // ← tu contraseña correcta
+$dbname = "hackaton"; // ← la base que sí estás usando
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);

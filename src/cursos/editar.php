@@ -1,6 +1,7 @@
 <?php
 include 'conexion.php';
 
+// Verificar que se ha pasado un ID válido de curso
 if (!isset($_GET['id'])) {
     die("ID de curso no proporcionado");
 }
@@ -23,6 +24,17 @@ if (!$curso) {
 $sql = "SELECT id, CONCAT(nombres, ' ', apellidos) AS nombre_completo FROM usuarios";
 $stmt = $conn->query($sql);
 $profesores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Traemos todos los estudiantes
+$sql_estudiantes = "SELECT id, CONCAT(nombres, ' ', apellidos) AS nombre_completo FROM estudiantes";
+$stmt = $conn->query($sql_estudiantes);
+$estudiantes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Traemos los estudiantes que ya están asignados al curso
+$sql_estudiantes_curso = "SELECT estudiante_id FROM estudiantes_curso WHERE curso_id = ?";
+$stmt = $conn->prepare($sql_estudiantes_curso);
+$stmt->execute([$id]);
+$estudiantes_asignados = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <!DOCTYPE html>
@@ -268,6 +280,18 @@ $profesores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+
+                <!-- Estudiantes -->
+                <div class="form-group">
+                    <label for="estudiantes">Estudiantes Asignados:</label>
+                    <?php foreach ($estudiantes as $estudiante): ?>
+                        <div>
+                            <input type="checkbox" name="estudiantes[]" value="<?= $estudiante['id'] ?>" 
+                            <?= in_array($estudiante['id'], $estudiantes_asignados) ? 'checked' : '' ?>>
+                            <?= htmlspecialchars($estudiante['nombre_completo']) ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="form-actions">

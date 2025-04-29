@@ -68,7 +68,7 @@ $pagina = "Cursos    ";
             --color-background: #FFF9F2;
             --color-white: #FFFFFF;
             --shadow: 0 4px 8px rgba(204, 85, 0, 0.1);
-            --radius: 10px;
+            --radius: 8px;
             --transition: all 0.3s ease;
         }
 
@@ -88,24 +88,23 @@ $pagina = "Cursos    ";
         .header {
             background: linear-gradient(135deg, var(--color-primary), var(--color-dark));
             color: var(--color-white);
-            padding: 1.5rem;
+            padding: 1rem;
             text-align: center;
-            border-bottom: 4px solid var(--color-accent);
+            border-bottom: 3px solid var(--color-accent);
         }
 
         .header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
         }
 
         .header p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             opacity: 0.9;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
@@ -114,17 +113,15 @@ $pagina = "Cursos    ";
             background-color: var(--color-white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 2rem;
-            margin-bottom: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         .button {
@@ -132,19 +129,19 @@ $pagina = "Cursos    ";
             align-items: center;
             background-color: var(--color-primary);
             color: var(--color-white);
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             border-radius: var(--radius);
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
             border: none;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .button:hover {
             background-color: var(--color-dark);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .button i {
@@ -166,14 +163,16 @@ $pagina = "Cursos    ";
         th {
             background-color: var(--color-primary);
             color: var(--color-white);
-            padding: 1rem;
+            padding: 0.75rem;
             text-align: left;
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
         td {
-            padding: 1rem;
+            padding: 0.75rem;
             border-bottom: 1px solid var(--color-light);
+            font-size: 0.85rem;
         }
 
         tr:last-child td {
@@ -186,9 +185,9 @@ $pagina = "Cursos    ";
 
         .badge {
             display: inline-block;
-            padding: 0.4rem 0.8rem;
+            padding: 0.35rem 0.7rem;
             border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             text-align: center;
         }
@@ -210,10 +209,10 @@ $pagina = "Cursos    ";
         }
 
         .btn {
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: var(--radius);
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             transition: var(--transition);
             display: inline-flex;
@@ -254,7 +253,7 @@ $pagina = "Cursos    ";
         .footer {
             text-align: center;
             margin-top: 2rem;
-            padding: 1.5rem;
+            padding: 1rem;
             background-color: var(--color-primary);
             color: var(--color-white);
             border-radius: var(--radius) var(--radius) 0 0;
@@ -274,7 +273,7 @@ $pagina = "Cursos    ";
         }
 
         .description {
-            max-width: 250px;
+            max-width: 200px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -282,7 +281,7 @@ $pagina = "Cursos    ";
 
         /* Media Queries */
         @media (max-width: 768px) {
-            .action-buttons {
+            .actions {
                 flex-direction: column;
             }
             
@@ -361,6 +360,9 @@ $pagina = "Cursos    ";
                                         <i class="fas fa-check-circle"></i> Activar
                                     </a>
                                 <?php endif; ?>
+                                <a href="show.php?id=<?= $curso['id'] ?>" class="btn btn-restore">
+                                    <i class="fas fa-users"></i> Ver Estudiantes
+                                </a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -369,7 +371,6 @@ $pagina = "Cursos    ";
             </div>
         </div>
     </div>
-
 
     <?php
 $contenido = ob_get_clean(); // Guarda el contenido generado
