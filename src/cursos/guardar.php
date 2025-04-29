@@ -1,4 +1,5 @@
 <?php
+include 'conexion.php'; 
 session_start();
 
 require_once __DIR__ . '/../index.php';
@@ -7,64 +8,77 @@ use App\DB\Connection;
 
 $conn = Connection::get();
 
-// Inicializar array de errores
-$_SESSION['errors'] = [];
 
-// Validar que todos los campos requeridos están presentes
-$required = ['nombre', 'descripcion', 'profesor_id', 'fecha_inicio', 'fecha_fin'];
-foreach ($required as $field) {
-    if (empty($_POST[$field])) {
-        $_SESSION['errors'][$field] = "El campo $field es requerido";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+   
+    $nombre = $_POST['nombre']; 
+    $descripcion = $_POST['descripcion']; 
+    $fecha_inicio = $_POST['fecha_inicio']; 
+    $fecha_fin = $_POST['fecha_fin']; 
+    $profesor_id = $_POST['profesor_id']; 
+    $estudiantes = isset($_POST['estudiantes']) ? $_POST['estudiantes'] : []; 
+
+    try {
+        
+        $conn->beginTransaction();
+
+   
+        $sql = "INSERT INTO cursos (nombre, descripcion, fecha_inicio, fecha_fin, profesor_id, created_at) 
+                VALUES (:nombre, :descripcion, :fecha_inicio, :fecha_fin, :profesor_id, NOW())";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':nombre' => $nombre,
+            ':descripcion' => $descripcion,
+            ':fecha_inicio' => $fecha_inicio,
+            ':fecha_fin' => $fecha_fin,
+            ':profesor_id' => $profesor_id
+        ]);
+        
+        // Obtener el ID del curso recién creado
+        $curso_id = $conn->lastInsertId();
+
+        // Si hay estudiantes seleccionados, insertarlos en la tabla estudiantes_curso
+        if (!empty($estudiantes)) {
+            $sqlEst = "INSERT INTO estudiantes_curso (curso_id, estudiante_id) VALUES (:curso_id, :estudiante_id)";
+            $stmtEst = $conn->prepare($sqlEst);
+
+            // Recorrer los estudiantes seleccionados y agregar su relación con el curso
+            foreach ($estudiantes as $estudiante_id) {
+                $stmtEst->execute([
+                    ':curso_id' => $curso_id,
+                    ':estudiante_id' => $estudiante_id
+                ]);
+            }
+        }
+
+        // Confirmar la transacción
+        $conn->commit();
+
+        // Redirigir a la página principal (index.php)
+        header("Location: index.php");
+        exit();
+    } catch (Exception $e) {
+        // En caso de error, revertir la transacción
+        $conn->rollBack();
+        echo "Error al guardar el curso: " . $e->getMessage();
     }
-}
-
-// Validar y sanitizar datos
-$nombre = trim($_POST['nombre']);
-$descripcion = trim($_POST['descripcion']);
-$profesor_id = filter_var($_POST['profesor_id'], FILTER_VALIDATE_INT);
-$fecha_inicio = $_POST['fecha_inicio'];
-$fecha_fin = $_POST['fecha_fin'];
-
-// Validaciones específicas
-if (strlen($nombre) < 5 || strlen($nombre) > 100) {
-    $_SESSION['errors']['nombre'] = "El nombre del curso debe tener entre 5 y 100 caracteres";
-}
-
-if (strlen($descripcion) < 10 || strlen($descripcion) > 500) {
-    $_SESSION['errors']['descripcion'] = "La descripción debe tener entre 10 y 500 caracteres";
-}
-
-if ($profesor_id === false || $profesor_id <= 0) {
-    $_SESSION['errors']['profesor_id'] = "ID de profesor inválido";
 } else {
-    // Verificar que el profesor existe
-    $check = $conn->prepare("SELECT id FROM usuarios WHERE id = ?");
-    $check->execute([$profesor_id]);
-    if ($check->rowCount() === 0) {
-        $_SESSION['errors']['profesor_id'] = "El profesor seleccionado no existe";
-    }
-}
 
-// Validar fechas
-if (!strtotime($fecha_inicio) || !strtotime($fecha_fin)) {
-    $_SESSION['errors']['fecha_inicio'] = "Fechas inválidas";
-} elseif (strtotime($fecha_fin) < strtotime($fecha_inicio)) {
-    $_SESSION['errors']['fecha_fin'] = "La fecha de fin no puede ser anterior a la fecha de inicio";
-}
-
-// Guardar los valores del formulario para repoblarlo
-$_SESSION['old_input'] = $_POST;
-
-// Si hay errores, redirigir de vuelta al formulario
-if (!empty($_SESSION['errors'])) {
     header("Location: crear.php");
     exit;
 }
 
 // Si no hay errores, insertar en la base de datos
 $sql = "INSERT INTO cursos (nombre, descripcion, profesor_id, fecha_inicio, fecha_fin, created_at, updated_at)
-        VALUES ('{$nombre}', '{$descripcion}', {$profesor_id}, {$fecha_inicio}, {$fecha_fin}, NOW(), NOW())";
-$resultado = $conn->exec($sql);
+        VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+    $nombre,
+    $descripcion,
+    $profesor_id,
+    $fecha_inicio,
+    $fecha_fin
+]);
 
 // Limpiar datos de sesión después de éxito
 unset($_SESSION['errors']);

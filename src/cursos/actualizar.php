@@ -74,6 +74,23 @@ $stmt->execute([
     $id
 ]);
 
+// Actualizar los estudiantes asignados
+if (isset($_POST['estudiantes']) && is_array($_POST['estudiantes'])) {
+    $estudiantes = $_POST['estudiantes'];
+
+    // Eliminar los estudiantes previamente asignados a este curso
+    $delete = $conn->prepare("DELETE FROM estudiantes_curso WHERE curso_id = ?");
+    $delete->execute([$id]);
+
+    // Asignar los nuevos estudiantes seleccionados
+    $insert = $conn->prepare("INSERT INTO estudiantes_curso (curso_id, estudiante_id) VALUES (?, ?)");
+
+    foreach ($estudiantes as $estudiante_id) {
+        $insert->execute([$id, $estudiante_id]);
+    }
+}
+
+// Redirigir al índice después de la actualización
 header("Location: index.php");
 exit;
 ?>
