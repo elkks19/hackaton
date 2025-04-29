@@ -227,10 +227,6 @@ $cursos = $conn->query("SELECT id, nombre FROM cursos WHERE deleted_at IS NULL")
         let valido = true;
         
         // Validar fecha
-        const fechaInput = document.getElementById('fecha');
-        const fechaSeleccionada = new Date(fechaInput.value);
-        const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
         
         if (fechaSeleccionada < hoy) {
             fechaInput.classList.add('is-invalid');

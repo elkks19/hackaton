@@ -1,5 +1,10 @@
 <?php
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conn = Connection::get();
 
 if (!isset($_GET['id']) || !filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
     die("ID de curso inválido.");
