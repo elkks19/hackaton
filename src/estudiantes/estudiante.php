@@ -1,7 +1,13 @@
 <?php
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conexion = Connection::get();
+$resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT NULL");
 $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NULL");
-$total_estudiantes = $resultado->num_rows;
+$total_estudiantes = $resultado->rowCount();
 
 $titulo = "Estudiantes";
 $pagina = "estudiantes";

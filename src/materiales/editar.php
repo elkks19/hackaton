@@ -1,9 +1,14 @@
 <?php
-require '../../conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conexion = Connection::get();
 
 $id = $_GET['id'];
 $resultado = $conexion->query("SELECT * FROM materiales WHERE id = $id");
-$material = $resultado->fetch_assoc();
+$material = $resultado->fetchAll();
 
 $tipos = $conexion->query("SELECT * FROM tipos_materiales");
 ?>

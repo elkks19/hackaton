@@ -1,5 +1,10 @@
 <?php
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conexion = Connection::get();
 
 // Obtener roles para el select
 $roles = $conexion->query("SELECT * FROM roles");
@@ -27,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <form method="POST" action="">
     Rol: 
     <select name="rol_id" required>
-        <?php while ($rol = $roles->fetch_assoc()): ?>
+        <?php while ($rol = $roles->fetchAll()): ?>
             <option value="<?php echo $rol['id']; ?>"><?php echo $rol['nombre']; ?></option>
         <?php endwhile; ?>
     </select><br><br>

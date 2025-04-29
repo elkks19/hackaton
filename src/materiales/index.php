@@ -1,5 +1,10 @@
 <?php
-require '../../conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conexion = Connection::get();
 
 $resultado = $conexion->query("
     SELECT m.id, m.nombre, m.descripcion, t.nombre AS tipo

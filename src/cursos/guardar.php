@@ -1,6 +1,11 @@
 <?php
 session_start();
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conn = Connection::get();
 
 // Inicializar array de errores
 $_SESSION['errors'] = [];

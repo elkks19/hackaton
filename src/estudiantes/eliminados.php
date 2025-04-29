@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/../index.php';
 
-use Dba\Connection;
+use App\DB\Connection;
 
-$connection = Connection::get();
+$conexion = Connection::get();
 $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT NULL");
 ?>
 
@@ -167,7 +167,7 @@ $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT
         </div>
         
         <div class="table-container">
-            <?php if ($resultado->num_rows > 0): ?>
+            <?php if ($resultado->rowCount()> 0): ?>
                 <table>
                     <thead>
                         <tr>
@@ -180,7 +180,7 @@ $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($fila = $resultado->fetch_assoc()): ?>
+                        <?php while ($fila = $resultado->fetchAll()): ?>
                             <tr>
                                 <td><?php echo $fila['id']; ?></td>
                                 <td><?php echo $fila['nombres'] . ' ' . $fila['apellidos']; ?></td>

@@ -1,5 +1,10 @@
 <?php
-require '../../conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conexion = Connection::get();
 $tipos = $conexion->query("SELECT * FROM tipos_materiales");
 ?>
 

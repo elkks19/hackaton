@@ -1,12 +1,16 @@
 <?php
-include 'conexion.php';
 
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conexion = Connection::get();
 $id = $_GET['id'];
 
 $resultado = $conexion->query("SELECT * FROM estudiantes WHERE id = $id");
 
-if ($resultado->num_rows > 0) {
-    $fila = $resultado->fetch_assoc();
+if ($resultado->rowCount()> 0) {
+    $fila = $resultado->fetchAll();
 } else {
     echo "<div style='text-align: center; margin-top: 50px;'>
             <h2 style='color: #EF4444;'>Estudiante no encontrado</h2>

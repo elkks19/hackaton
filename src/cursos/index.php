@@ -1,5 +1,10 @@
 <?php
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conn = Connection::get();
 
 // Validación para restaurar curso
 if (isset($_GET['restaurar'])) {

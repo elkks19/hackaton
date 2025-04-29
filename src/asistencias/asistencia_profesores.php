@@ -1,5 +1,10 @@
 <?php
-include 'conexion.php'; // Ajusta la ruta si tu estructura es diferente
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$pdo = Connection::get();
 
 // Obtener clases de hoy
 $hoy = date('Y-m-d');

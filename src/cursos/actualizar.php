@@ -1,5 +1,10 @@
 <?php
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conn = Connection::get();
 
 // Validar que todos los campos requeridos están presentes
 $required = ['id', 'nombre', 'descripcion', 'profesor_id', 'fecha_inicio', 'fecha_fin'];
