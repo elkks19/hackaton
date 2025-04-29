@@ -1,5 +1,10 @@
 <?php
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conn = Connection::get();
 
 // Validaciones
 if (empty($_POST['curso_id']) || empty($_POST['fecha']) || empty($_POST['hora']) || empty($_POST['estado'])) {

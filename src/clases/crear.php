@@ -1,5 +1,10 @@
 <?php
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conn = Connection::get();
 
 // Obtener cursos activos
 $stmt = $conn->query("SELECT id, nombre FROM cursos WHERE deleted_at IS NULL");

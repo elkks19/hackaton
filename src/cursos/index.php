@@ -56,7 +56,7 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php
 $titulo = "Cursos";
-$pagina = "Cursos    ";
+$pagina = "Cursos";
 ?>
 
 <?php ob_start(); ?>
@@ -376,7 +376,7 @@ $pagina = "Cursos    ";
     </div>
 
 
-    <?php
+<?php
 $contenido = ob_get_clean(); // Guarda el contenido generado
 include '../layout/layout.php'; // Muestra el layout con el contenido insertado
 ?>

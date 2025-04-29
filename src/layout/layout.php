@@ -294,6 +294,10 @@
                 <span class="menu-icon">📚</span>
                 <span class="menu-text">Cursos</span>
             </a>
+            <a href="../clases/index.php" class="menu-item menu-cursos">
+                <span class="menu-icon">😒</span>
+                <span class="menu-text">Clases</span>
+            </a>
             <a href="../asistencias/escoger.php" class="menu-item menu-asistencia">
                 <span class="menu-icon">📋</span>
                 <span class="menu-text">Asistencia</span>

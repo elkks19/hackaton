@@ -63,15 +63,8 @@ if (!empty($_SESSION['errors'])) {
 
 // Si no hay errores, insertar en la base de datos
 $sql = "INSERT INTO cursos (nombre, descripcion, profesor_id, fecha_inicio, fecha_fin, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
-$stmt = $conn->prepare($sql);
-$stmt->execute([
-    $nombre,
-    $descripcion,
-    $profesor_id,
-    $fecha_inicio,
-    $fecha_fin
-]);
+        VALUES ('{$nombre}', '{$descripcion}', {$profesor_id}, {$fecha_inicio}, {$fecha_fin}, NOW(), NOW())";
+$resultado = $conn->exec($sql);
 
 // Limpiar datos de sesión después de éxito
 unset($_SESSION['errors']);

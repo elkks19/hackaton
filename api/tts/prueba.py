@@ -6,16 +6,13 @@ engine = pyttsx3.init()
 
 # Buscar la voz de "Microsoft Sabina"
 voices = engine.getProperty('voices')
-for voice in voices:
-    if "Helena" in voice.name:
-        engine.setProperty('voice', voice.id)
-        break
+
 
 # Texto que quieres convertir
 texto = input("Escribe el texto que quieres convertir a audio:\n")
 
 # --- TU RUTA FIJA ---
-ruta_guardado = r"C:\Users\HP\Desktop\HAKA\repo\hackaton\src\tts\audios"
+ruta_guardado = r"/share/Proyectos/hackaton/src/tts/audios/"
 
 # Nombre del archivo
 nombre_archivo = "audio_generado"

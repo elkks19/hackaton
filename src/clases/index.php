@@ -1,5 +1,14 @@
 <?php
-include 'conexion.php';
+
+require_once __DIR__ . '/../index.php';
+
+use App\DB\Connection;
+
+$conn = Connection::get();
+$titulo = "Clases";
+$pagina = "Clases";
+ob_start();
+
 $stmt = $conn->prepare("SELECT c.id, c.fecha, c.hora, c.estado, cu.nombre AS curso
                         FROM clases c
                         JOIN cursos cu ON c.curso_id = cu.id
@@ -305,3 +314,8 @@ $clases = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </body>
 </html>
+
+<?php
+$contenido = ob_get_clean(); // Guarda el contenido generado
+include '../layout/layout.php'; // Muestra el layout con el contenido insertado
+?>
