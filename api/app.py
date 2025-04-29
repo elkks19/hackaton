@@ -1,65 +1,51 @@
 import subprocess
 import os
 import sys
-import re
 import uuid
-import shutil
-import pyttsx3
+from gtts import gTTS
 
-def clean_and_flatten_text(text):
-    text = text.replace('\n', ' ')
-    text = re.sub(r'\s+', ' ', text)
-    text = ''.join(c for c in text if 32 <= ord(c) <= 126 or c in 'áéíóúÁÉÍÓÚñÑüÜ ')
-    return text.strip()
+def process_pdf(pdf_path):
+    output_id = str(uuid.uuid4())
+    work_dir = os.path.join("uploads", output_id)
+    os.makedirs(work_dir, exist_ok=True)
 
-def process_pdf_to_audio(pdf_path):
-    # Crear carpeta única
-    unique_id = str(uuid.uuid4())
-    output_dir = os.path.join("uploads", unique_id)
-    os.makedirs(output_dir, exist_ok=True)
+    input_pdf = os.path.join(work_dir, "input.pdf")
+    output_txt = os.path.join(work_dir, "text.txt")
+    output_dummy_pdf = os.path.join(work_dir, "dummy.pdf")
+    output_mp3 = os.path.join(work_dir, "audio.mp3")
 
-    # Rutas de archivo
-    original_pdf_path = os.path.join(output_dir, "documento.pdf")
-    output_txt_path = os.path.join(output_dir, "salida.txt")
-    dummy_pdf_path = os.path.join(output_dir, "output_dummy.pdf")
-    output_mp3_path = os.path.join(output_dir, "salida.mp3")
+    # Copiar PDF a carpeta
+    os.rename(pdf_path, input_pdf)
 
-    # Copiar el PDF original
-    shutil.copyfile(pdf_path, original_pdf_path)
-
-    # OCR: Generar archivo de texto
     try:
-        subprocess.run([
-            "ocrmypdf", "--sidecar", output_txt_path, original_pdf_path, dummy_pdf_path
-        ], check=True)
-    except subprocess.CalledProcessError:
-        print("ERROR: Falló el OCR.")
+        subprocess.run(["ocrmypdf", "--sidecar", output_txt, input_pdf, output_dummy_pdf], check=True)
+    except Exception as e:
+        print(f"OCR error: {e}", file=sys.stderr)
         sys.exit(1)
 
-    # Leer y limpiar texto
-    if not os.path.exists(output_txt_path):
-        print("ERROR: No se generó el archivo de texto.")
+    if not os.path.exists(output_txt):
+        print("OCR no generó texto", file=sys.stderr)
         sys.exit(1)
 
-    with open(output_txt_path, 'r', encoding='utf-8') as f:
-        raw_text = f.read()
+    with open(output_txt, "r", encoding="utf-8") as f:
+        text = f.read().strip()
 
-    cleaned_text = clean_and_flatten_text(raw_text)
+    if not text:
+        print("Texto vacío", file=sys.stderr)
+        sys.exit(1)
 
-    with open(output_txt_path, 'w', encoding='utf-8') as f:
-        f.write(cleaned_text)
+    try:
+        tts = gTTS(text, lang='es')
+        tts.save(output_mp3)
+    except Exception as e:
+        print(f"gTTS error: {e}", file=sys.stderr)
+        sys.exit(1)
 
-    # Generar audio
-    engine = pyttsx3.init()
-    engine.save_to_file(cleaned_text, output_mp3_path)
-    engine.runAndWait()
-
-    # Imprimir la ruta final del MP3 (relativa a PHP)
-    print(output_mp3_path)
+    print(os.path.abspath(output_mp3))
 
 if __name__ == "__main__":
-    if len(sys.argv) != 1 + 1:
-        print("Uso: python app.py archivo.pdf")
+    if len(sys.argv) != 2:
+        print("Uso: python3 app.py archivo.pdf", file=sys.stderr)
         sys.exit(1)
 
-    process_pdf_to_audio(sys.argv[1])
+    process_pdf(sys.argv[1])
