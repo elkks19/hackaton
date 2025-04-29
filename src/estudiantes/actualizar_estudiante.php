@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="esa>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -186,7 +186,12 @@
 </head>
 <body>
     <?php
-    include 'conexion.php';
+	require_once __DIR__ . '/../index.php';
+
+	use App\DB\Connection;
+
+	$conexion = Connection::get();
+
 
     $id = $_GET['id'];
     $mensaje = '';
@@ -207,17 +212,17 @@
                 updated_at=CURRENT_TIMESTAMP
                 WHERE id=$id";
 
-        if ($conexion->query($sql) === TRUE) {
+        if ($conexion->query($sql) !== false) {
             $mensaje = "Estudiante actualizado correctamente.";
             $tipo_mensaje = "success";
         } else {
-            $mensaje = "Error al actualizar: " . $conexion->error;
+            $mensaje = "Error al actualizar: " . $conexion->errorInfo()[2];
             $tipo_mensaje = "danger";
         }
     }
 
     $resultado = $conexion->query("SELECT * FROM estudiantes WHERE id=$id");
-    $fila = $resultado->fetch_assoc();
+    $fila = $resultado->fetch();
     ?>
 
     <div class="container">

@@ -9,8 +9,8 @@ $id = $_GET['id'];
 
 $resultado = $conexion->query("SELECT * FROM estudiantes WHERE id = $id");
 
-if ($resultado->rowCount()> 0) {
-    $fila = $resultado->fetchAll();
+if ($resultado->rowCount() > 0) {
+    $fila = $resultado->fetch();
 } else {
     echo "<div style='text-align: center; margin-top: 50px;'>
             <h2 style='color: #EF4444;'>Estudiante no encontrado</h2>

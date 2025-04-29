@@ -186,7 +186,12 @@
 </head>
 <body>
     <?php
-    include 'conexion.php';
+	require_once __DIR__ . '/../index.php';
+
+	use App\DB\Connection;
+
+	$conexion = Connection::get();
+
     
     $mensaje = '';
     $tipo_mensaje = '';
@@ -203,11 +208,11 @@
         $sql = "INSERT INTO estudiantes (nombres, apellidos, ci, telefono, nombre_tutor, telefono_tutor, ci_tutor)
                 VALUES ('$nombres', '$apellidos', '$ci', '$telefono', '$nombre_tutor', '$telefono_tutor', '$ci_tutor')";
 
-        if ($conexion->query($sql) === TRUE) {
+        if ($conexion->query($sql) !== false) {
             $mensaje = "Estudiante registrado correctamente.";
             $tipo_mensaje = "success";
         } else {
-            $mensaje = "Error: " . $conexion->error;
+            $mensaje = "Error: " . $conexion->errorInfo()[2];
             $tipo_mensaje = "danger";
         }
     }

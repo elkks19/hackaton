@@ -107,20 +107,25 @@
         
         <div class="content">
             <?php
-            include 'conexion.php';
+			require_once __DIR__ . '/../index.php';
+
+			use App\DB\Connection;
+
+			$conexion = Connection::get();
+
 
             $id = $_GET['id'];
 
             // Restaurar estudiante: poner deleted_at en NULL
             $sql = "UPDATE estudiantes SET deleted_at = CURRENT_TIMESTAMP WHERE id = $id";
 
-            if ($conexion->query($sql) === TRUE) {
+        	if ($conexion->query($sql) !== false) {
                 echo "<div class='status success'>
                         <strong>¡Éxito!</strong> El estudiante ha sido eliminado correctamente.
                       </div>";
             } else {
                 echo "<div class='status error'>
-                        <strong>Error:</strong> " . $conexion->error . "
+                        <strong>Error:</strong> " . $conexion->errorInfo()[2] . "
                       </div>";
             }
             ?>

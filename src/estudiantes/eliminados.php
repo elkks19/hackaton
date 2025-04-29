@@ -180,7 +180,7 @@ $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($fila = $resultado->fetchAll()): ?>
+                        <?php foreach ($resultado->fetchAll() as $fila): ?>
                             <tr>
                                 <td><?php echo $fila['id']; ?></td>
                                 <td><?php echo $fila['nombres'] . ' ' . $fila['apellidos']; ?></td>
@@ -195,7 +195,7 @@ $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT
                                     </a>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             <?php else: ?>

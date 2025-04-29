@@ -5,7 +5,7 @@ require_once __DIR__ . '/../index.php';
 use App\DB\Connection;
 
 $conexion = Connection::get();
-$resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT NULL");
+// $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NOT NULL");
 $resultado = $conexion->query("SELECT * FROM estudiantes WHERE deleted_at IS NULL");
 $total_estudiantes = $resultado->rowCount();
 
@@ -303,7 +303,7 @@ tr:hover {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($fila = $resultado->fetch_assoc()): ?>
+					<?php foreach ($resultado->fetchAll() as $fila):  ?>
                         <tr>
                             <td><?php echo $fila['id']; ?></td>
                             <td><?php echo $fila['nombres'] . ' ' . $fila['apellidos']; ?></td>
@@ -321,7 +321,7 @@ tr:hover {
                                 </a>
                             </td>
                         </tr>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         <?php else: ?>
