@@ -290,7 +290,7 @@
                 <span class="menu-icon">👨‍🎓</span>
                 <span class="menu-text">Estudiantes</span>
             </a>
-            <a href="curso.php" class="menu-item menu-cursos">
+            <a href="../cursos/index.php" class="menu-item menu-cursos">
                 <span class="menu-icon">📚</span>
                 <span class="menu-text">Cursos</span>
             </a>
