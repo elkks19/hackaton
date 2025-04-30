@@ -7,7 +7,7 @@ use App\DB\Connection;
 $conn = Connection::get();
 
 // Obtener cursos activos
-$stmt = $conn->query("SELECT id, nombre FROM cursos WHERE deleted_at IS NULL");
+$stmt = $conn->query("SELECT id, nombre FROM cursos");
 $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>

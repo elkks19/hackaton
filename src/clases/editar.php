@@ -8,7 +8,7 @@ $conn = Connection::get();
 
 $id = $_GET['id'];
 
-$stmt = $conn->prepare("SELECT * FROM clases WHERE id = ? AND deleted_at IS NULL");
+$stmt = $conn->prepare("SELECT * FROM clases WHERE id = ?");
 $stmt->execute([$id]);
 $clase = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -16,7 +16,7 @@ if (!$clase) {
     die("Clase no encontrada");
 }
 
-$cursos = $conn->query("SELECT id, nombre FROM cursos WHERE deleted_at IS NULL")->fetchAll(PDO::FETCH_ASSOC);
+$cursos = $conn->query("SELECT id, nombre FROM cursos")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">

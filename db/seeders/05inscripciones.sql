@@ -19,9 +19,4 @@ VALUES
     (17, '2025-04-29', 'Ceguera Total'),
     (18, '2025-04-29', 'Baja Visión'),
     (19, '2025-04-29', 'Ceguera Total'),
-    (20, '2025-04-29', 'Baja Visión'),
-    (21, '2025-04-29', 'Ceguera Total'),
-    (22, '2025-04-29', 'Baja Visión'),
-    (23, '2025-04-29', 'Ceguera Total'),
-    (24, '2025-04-29', 'Baja Visión'),
-    (25, '2025-04-29', 'Ceguera Total');
+    (20, '2025-04-29', 'Baja Visión');

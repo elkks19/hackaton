@@ -287,29 +287,24 @@ $pagina = "Inicio";
         <!-- Quick Actions -->
         <h2 class="section-title">✨ Acciones Rápidas</h2>
         <div class="quick-actions">
-            <a href="nuevo_estudiante.php" class="action-card">
+            <a href="../estudiantes/crear_estudiante.php" class="action-card">
                 <div class="action-icon icon-primary">➕</div>
                 <h3 class="action-title">Registrar Estudiante</h3>
                 <p class="action-description">Añadir un nuevo estudiante al sistema con toda su información.</p>
             </a>
             
-            <a href="asistencia_diaria.php" class="action-card">
+            <a href="../asistencias/escoger.php" class="action-card">
                 <div class="action-icon icon-success">📋</div>
                 <h3 class="action-title">Registrar Asistencia</h3>
                 <p class="action-description">Tomar asistencia para las clases del día actual.</p>
             </a>
             
-            <a href="reportes.php" class="action-card">
+            <a href="../reportes/index.php" class="action-card">
                 <div class="action-icon icon-warning">📊</div>
                 <h3 class="action-title">Generar Reportes</h3>
                 <p class="action-description">Crear informes de rendimiento, asistencia y financieros.</p>
             </a>
             
-            <a href="pagos_pendientes.php" class="action-card">
-                <div class="action-icon icon-danger">💰</div>
-                <h3 class="action-title">Pagos Pendientes</h3>
-                <p class="action-description">Ver listado de pagos pendientes y registrar nuevos pagos.</p>
-            </a>
         </div>
     </div>
     <?php

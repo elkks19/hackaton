@@ -12,7 +12,6 @@ ob_start();
 $stmt = $conn->prepare("SELECT c.id, c.fecha, c.hora, c.estado, cu.nombre AS curso
                         FROM clases c
                         JOIN cursos cu ON c.curso_id = cu.id
-                        WHERE c.deleted_at IS NULL
                         ORDER BY c.fecha DESC");
 $stmt->execute();
 $clases = $stmt->fetchAll(PDO::FETCH_ASSOC);

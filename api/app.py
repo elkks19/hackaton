@@ -1,51 +1,73 @@
-import subprocess
-import os
 import sys
-import uuid
+import os
+import subprocess
 from gtts import gTTS
 
-def process_pdf(pdf_path):
-    output_id = str(uuid.uuid4())
-    work_dir = os.path.join("uploads", output_id)
-    os.makedirs(work_dir, exist_ok=True)
-
-    input_pdf = os.path.join(work_dir, "input.pdf")
-    output_txt = os.path.join(work_dir, "text.txt")
-    output_dummy_pdf = os.path.join(work_dir, "dummy.pdf")
-    output_mp3 = os.path.join(work_dir, "audio.mp3")
-
-    # Copiar PDF a carpeta
-    os.rename(pdf_path, input_pdf)
-
+def extraer_texto_de_pdf(pdf_path, sidecar_txt):
+    """Intenta extraer texto usando OCR; si ya hay texto, usa pdftotext."""
     try:
-        subprocess.run(["ocrmypdf", "--sidecar", output_txt, input_pdf, output_dummy_pdf], check=True)
-    except Exception as e:
-        print(f"OCR error: {e}", file=sys.stderr)
+        # Ejecuta ocrmypdf normalmente
+        subprocess.run([
+            "ocrmypdf",
+            "--sidecar", sidecar_txt,
+            "--skip-text",  # Evita sobreescribir si ya tiene texto
+            pdf_path,
+            os.devnull  # Ignoramos el PDF de salida
+        ], check=True)
+    except subprocess.CalledProcessError as e:
+        if e.returncode == 6:
+            # El código 6 indica que ya tenía texto
+            print("El PDF ya tiene texto, extrayendo sin OCR...")
+            try:
+                subprocess.run([
+                    "pdftotext",
+                    "-layout",  # Mantiene un mejor formato
+                    pdf_path,
+                    sidecar_txt
+                ], check=True)
+            except subprocess.CalledProcessError as e2:
+                print("Error extrayendo texto del PDF:", e2)
+                sys.exit(1)
+        else:
+            print("Error ejecutando ocrmypdf:", e)
+            sys.exit(1)
+
+def convertir_pdf_a_audio(pdf_path):
+    if not os.path.exists(pdf_path):
+        print("PDF no encontrado.")
         sys.exit(1)
 
-    if not os.path.exists(output_txt):
-        print("OCR no generó texto", file=sys.stderr)
-        sys.exit(1)
+    base_name = os.path.splitext(pdf_path)[0]
+    sidecar_txt = base_name + "_ocr.txt"
+    salida_mp3 = base_name + ".mp3"
 
-    with open(output_txt, "r", encoding="utf-8") as f:
-        text = f.read().strip()
+    extraer_texto_de_pdf(pdf_path, sidecar_txt)
 
-    if not text:
-        print("Texto vacío", file=sys.stderr)
-        sys.exit(1)
-
+    # Leer el texto extraído
     try:
-        tts = gTTS(text, lang='es')
-        tts.save(output_mp3)
+        with open(sidecar_txt, 'r', encoding='utf-8') as f:
+            texto = f.read()
     except Exception as e:
-        print(f"gTTS error: {e}", file=sys.stderr)
+        print("Error leyendo el archivo de texto:", e)
         sys.exit(1)
 
-    print(os.path.abspath(output_mp3))
+    if not texto.strip():
+        print("El texto extraído está vacío.")
+        sys.exit(1)
+
+    # Convertir texto a audio
+    try:
+        tts = gTTS(text=texto, lang='es')
+        tts.save(salida_mp3)
+    except Exception as e:
+        print("Error al generar audio:", e)
+        sys.exit(1)
+
+    print("Audio generado:", salida_mp3)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Uso: python3 app.py archivo.pdf", file=sys.stderr)
+        print("Uso: python3 app.py archivo.pdf")
         sys.exit(1)
 
-    process_pdf(sys.argv[1])
+    convertir_pdf_a_audio(sys.argv[1])
