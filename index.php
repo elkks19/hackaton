@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>APRECIA - Apoyo para Niños con Discapacidad Visual</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/public/tailwind.css"></script>
   <script>
     tailwind.config = {
       theme: {

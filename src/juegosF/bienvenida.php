@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido - Formas y Colores</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
+        @import url('/public/baloo');
         
         * {
             box-sizing: border-box;

@@ -13,7 +13,7 @@ $tipos = $conexion->query("SELECT * FROM tipos_materiales");
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Material</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/font-awesome.css">
     <style>
         :root {
             --color-primary: #FF7F00;

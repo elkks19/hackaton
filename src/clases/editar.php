@@ -24,8 +24,8 @@ $cursos = $conn->query("SELECT id, nombre FROM cursos")->fetchAll(PDO::FETCH_ASS
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Clase</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="/public/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/font-awesome.css">
     <style>
         :root {
             --primary-color: #FF7F27;
@@ -221,7 +221,7 @@ $cursos = $conn->query("SELECT id, nombre FROM cursos")->fetchAll(PDO::FETCH_ASS
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/bootstrap.js"></script>
     <script>
     function validarFormulario() {
         let valido = true;

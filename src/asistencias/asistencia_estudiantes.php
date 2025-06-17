@@ -117,7 +117,7 @@ $pagina = "Asistencia Estudiantes";
     <?php endif; ?>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/bootstrap.js"></script>
 <?php
 $contenido = ob_get_clean(); // Guarda el contenido generado
 include '../layout/layout.php'; // Muestra el layout con el contenido insertado

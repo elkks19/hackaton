@@ -43,8 +43,8 @@ echo <<<HTML
 <head>
   <meta charset="UTF-8">
   <title>Crear Inscripción</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/public/bootstrap-icons.css">
+  <link href="/public/bootstrap.css" rel="stylesheet">
 </head>
 <body>
   <div class="container my-5">
@@ -94,7 +94,7 @@ echo <<<HTML
     </form>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/bootstrap.js"></script>
 </body>
 </html>
 HTML;
